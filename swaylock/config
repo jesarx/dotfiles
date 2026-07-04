@@ -38,7 +38,7 @@ text-ver-color=c0caf5
 # Cleared
 inside-clear-color=1a1b26dd
 ring-clear-color=e0af68
-text-clear-color=1a1b26
+text-clear-color=e0af68
 
 # Wrong password
 inside-wrong-color=1a1b26dd
