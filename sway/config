@@ -147,6 +147,7 @@ floating_modifier $mod normal
 
 # System operations
 bindsym $mod+Shift+c reload
+bindsym $mod+Shift+x exec swaylock
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
 # ===================================================
@@ -296,10 +297,14 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 include /etc/sway/config.d/*
 
 # ===================================================
-#  IDLE CONFIGURATION (OPTIONAL)
+#  IDLE CONFIGURATION
 # ===================================================
-# Example idle configuration (uncomment to use):
-# exec swayidle -w \
-#     timeout 300 'swaylock -f -c 000000' \
-#     timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#     before-sleep 'swaylock -f -c 000000'
+# Requires: swayidle + swaylock (swaylock reads ~/.config/swaylock/config).
+# The waybar "cafeina" (idle_inhibitor) toggle pauses this whole chain.
+#   · 5 min idle  -> lock screen
+#   · 10 min idle -> turn displays off (wake on input)
+#   · before sleep -> lock
+exec swayidle -w \
+    timeout 300 'swaylock -f' \
+    timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -f'
