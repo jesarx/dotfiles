@@ -1,0 +1,280 @@
+# ===================================================
+#  SWAY CONFIGURATION
+# ===================================================
+# Copy this to ~/.config/sway/config
+# Read `man 5 sway` for a complete reference.
+
+# ===================================================
+#  VARIABLES
+# ===================================================
+set $mod Mod4
+
+# Direction keys (vim-like)
+set $left h
+set $down j
+set $up k
+set $right l
+
+# Applications
+set $term kitty
+set $menu wofi --show=drun --lines=5 --prompt=""
+set $uifont "Ubuntu 14"
+
+# Color scheme - Modern minimal palette
+set $cl_accent #7aa2f7
+set $cl_bg #1a1b26
+set $cl_fg #c0caf5
+set $cl_inactive #414868
+set $cl_urgent #f7768e
+
+# ===================================================
+#  OUTPUT CONFIGURATION
+# ===================================================
+output * bg #16161e solid_color
+
+# Alternative: gradient background (uncomment to use)
+# output * bg ~/.config/sway/wallpaper.png fill
+
+# Example multi-monitor setup (uncomment and adjust as needed):
+# output HDMI-A-1 resolution 1920x1080 position -1920,0
+# output eDP-1 resolution 1920x1080 position 0,0
+# Get output names with: swaymsg -t get_outputs
+
+# ===================================================
+#  INPUT CONFIGURATION
+# ===================================================
+input type:touchpad {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}
+
+input type:pointer {
+    natural_scroll enabled
+}
+
+input type:keyboard {
+    xkb_layout "us,es"
+    xkb_options "compose:ralt"
+}
+
+# Add specific config for MX Keys
+input "1133:16522:Logitech_MX_Keys" {
+    xkb_layout "us,es"
+    xkb_options "compose:ralt"
+}
+
+# Get input names with: swaymsg -t get_inputs
+
+# ===================================================
+#  APPEARANCE & THEMING
+# ===================================================
+
+# Window colors          border      bg       text         indicator    childborder
+client.focused          $cl_accent  $cl_bg   $cl_fg       $cl_accent   $cl_accent
+client.focused_inactive $cl_inactive $cl_bg  $cl_fg       $cl_inactive $cl_inactive
+client.unfocused        $cl_bg      $cl_bg   $cl_inactive $cl_bg       $cl_bg
+client.urgent           $cl_urgent  $cl_urgent $cl_fg     $cl_urgent   $cl_urgent
+
+# Modern minimal borders & gaps
+default_border pixel 1
+default_floating_border pixel 2
+hide_edge_borders smart
+
+# Subtle gaps for breathing room
+smart_gaps on
+gaps inner 6
+gaps outer 2
+
+# Smooth window transitions
+for_window [class=".*"] opacity 0.98
+for_window [app_id=".*"] opacity 0.98
+
+# Clean floating window defaults
+floating_minimum_size 300 x 200
+floating_maximum_size 1600 x 1200
+
+# ===================================================
+#  MEDIA & SYSTEM CONTROLS
+# ===================================================
+
+# Audio controls
+bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+
+# Media playback
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+bindsym --locked XF86Messenger exec playerctl play-pause
+
+# Screen brightness
+bindsym --locked XF86MonBrightnessUp exec brightnessctl set 1%+
+bindsym --locked XF86MonBrightnessDown exec brightnessctl set 1%-
+
+# Keyboard backlight brightness
+bindsym --locked XF86PickupPhone exec brightnessctl --device='tpacpi::kbd_backlight' set 1-
+bindsym --locked XF86HangupPhone exec brightnessctl --device='tpacpi::kbd_backlight' set +1
+
+
+# ===================================================
+#  SCREENSHOTS
+# ===================================================
+
+# Pantalla completa
+bindsym Print exec grim ~/$(date +%Y-%m-%d_%H-%M-%S).png
+
+# Selección con slurp
+bindsym $mod+Print exec grim -g "$(slurp)" ~/$(date +%Y-%m-%d_%H-%M-%S).png
+
+# Al portapapeles
+bindsym Shift+Print exec grim -g "$(slurp)" - | wl-copy
+
+# ===================================================
+#  BASIC WINDOW MANAGEMENT
+# ===================================================
+
+# Terminal & launcher
+bindsym $mod+Return exec $term
+bindsym $mod+d exec $menu
+
+# Window operations
+bindsym $mod+Shift+q kill
+floating_modifier $mod normal
+
+# System operations
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+
+# ===================================================
+#  WINDOW NAVIGATION
+# ===================================================
+
+# Focus movement (vim keys)
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# Focus movement (arrow keys)
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move windows (vim keys)
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# Move windows (arrow keys)
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# ===================================================
+#  WORKSPACES
+# ===================================================
+
+# Switch to workspace
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+# Move container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# ===================================================
+#  LAYOUT MANAGEMENT
+# ===================================================
+
+# Splitting
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# Layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Window states
+bindsym $mod+f fullscreen
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+
+# ===================================================
+#  SCRATCHPAD
+# ===================================================
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+# ===================================================
+#  RESIZE MODE
+# ===================================================
+mode "resize" {
+    # Resize with vim keys
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Resize with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Exit resize mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# ===================================================
+#  STATUS BAR
+# ===================================================
+bar {
+    swaybar_command waybar
+}
+
+# ===================================================
+#  AUTOSTART APPLICATIONS
+# ===================================================
+exec python ~/.config/rclone/proton_rclone_2fa.py &
+exec systemctl --user start proton-rclone-2fa.service
+
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+# ===================================================
+#  SYSTEM INCLUDES
+# ===================================================
+include /etc/sway/config.d/*
+
+# ===================================================
+#  IDLE CONFIGURATION (OPTIONAL)
+# ===================================================
+# Example idle configuration (uncomment to use):
+# exec swayidle -w \
+#     timeout 300 'swaylock -f -c 000000' \
+#     timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+#     before-sleep 'swaylock -f -c 000000'

@@ -1,0 +1,28 @@
+# Ignorar todo por default
+*
+
+# Permitir solo las carpetas de estilo/tweaks
+!sway/
+!sway/**
+!kitty/
+!kitty/**
+!wofi/
+!wofi/**
+!waybar/
+!waybar/**
+!tmux/
+!tmux/**
+!fish/
+!fish/**
+!btop/
+!btop/**
+!ranger/
+!ranger/**
+!zathura/
+!zathura/**
+!mpv/
+!mpv/**
+!fontconfig/
+!fontconfig/**
+
+!.gitignore

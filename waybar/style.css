@@ -1,0 +1,156 @@
+/* Minimal Waybar Style - Dark Theme */
+
+* {
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+    min-height: 0;
+    font-family: 'Ubuntu', 'Symbols Nerd Font', sans-serif;
+    font-size: 13px;
+}
+
+#waybar {
+    background: #1d1f21;
+    opacity: 0.85;
+    color: #b0b0b0;
+}
+
+/* Module spacing */
+#backlight,
+#battery,
+#clock,
+#cpu,
+#custom-keyboard-layout,
+#idle_inhibitor,
+#memory,
+#mode,
+#network,
+#pulseaudio,
+#temperature,
+#tray,
+#custom-weather {
+    margin-left: 16px;
+    color: #b0b0b0;
+    padding: 0 4px;
+}
+
+#battery {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#battery.warning {
+    color: orange;
+}
+
+#battery.critical {
+    color: red;
+}
+
+#battery.warning.discharging {
+    animation: blink-warning 3s infinite;
+}
+
+#battery.critical.discharging {
+    animation: blink-critical 2s infinite;
+}
+
+#cpu.warning {
+    color: orange;
+}
+
+#cpu.critical {
+    color: red;
+}
+
+#custom-keyboard-layout {
+    margin-left: 22px;
+}
+
+#memory {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#memory.warning {
+    color: orange;
+}
+
+#memory.critical {
+    color: red;
+    animation: blink-critical 2s infinite;
+}
+
+#mode {
+    color: #ffffff;
+    background-color: #900000;
+    margin-left: 0;
+    padding: 0 16px;
+}
+
+#network.disconnected {
+    color: orange;
+}
+
+#temperature.critical {
+    color: red;
+}
+
+#window {
+    margin-left: 32px;
+    margin-right: 32px;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+#workspaces button {
+    border-top: 2px solid transparent;
+    padding-bottom: 2px;
+    padding-left: 15px;
+    padding-right: 18px;
+    color: #b0b0b0;
+    transition: color 0.3s ease;
+}
+
+#workspaces button:hover {
+    color: #ffffff;
+}
+
+#workspaces button.visible {
+    border-color: #444444;
+    color: #cccccc;
+}
+
+#workspaces button.focused {
+    border-color: #888888;
+    color: #ffffff;
+}
+
+#workspaces button.urgent {
+    border-color: #ff6666;
+    color: #ff6666;
+}
+
+/* Animations */
+@keyframes blink-warning {
+    70% {
+        color: white;
+    }
+    to {
+        color: white;
+        background-color: orange;
+    }
+}
+
+@keyframes blink-critical {
+    70% {
+        color: white;
+    }
+    to {
+        color: white;
+        background-color: red;
+    }
+}
