@@ -5,7 +5,7 @@
 # Launch with: wofi --show=drun
 
 show=drun
-prompt=Buscar
+prompt=Search
 mode=drun
 
 # Layout
