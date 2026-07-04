@@ -1,156 +1,204 @@
-/* Minimal Waybar Style - Dark Theme */
+/* ===================================================
+ *  WAYBAR STYLE  ·  Tokyo Night
+ *  Floating rounded "islands", minimal and elegant.
+ * =================================================== */
+
+/* ---- Tokyo Night palette (for reference) ----------
+ *  bg        #1a1b26     bg-dark   #16161e
+ *  surface   #24283b     border    #414868
+ *  fg        #c0caf5     muted     #565f89
+ *  blue      #7aa2f7     cyan      #7dcfff
+ *  green     #9ece6a     magenta   #bb9af7
+ *  yellow    #e0af68     orange    #ff9e64
+ *  red       #f7768e     teal      #2ac3de
+ * --------------------------------------------------- */
 
 * {
+    font-family: "Ubuntu", "Symbols Nerd Font", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    min-height: 0;
     border: none;
     border-radius: 0;
-    margin: 0;
-    padding: 0;
-    min-height: 0;
-    font-family: 'Ubuntu', 'Symbols Nerd Font', sans-serif;
-    font-size: 13px;
 }
 
-#waybar {
-    background: #1d1f21;
-    opacity: 0.85;
-    color: #b0b0b0;
+/* Transparent bar — the islands provide the surface */
+window#waybar {
+    background: transparent;
+    color: #c0caf5;
 }
 
-/* Module spacing */
-#backlight,
-#battery,
-#clock,
-#cpu,
-#custom-keyboard-layout,
-#idle_inhibitor,
-#memory,
-#mode,
-#network,
-#pulseaudio,
-#temperature,
-#tray,
-#custom-weather {
-    margin-left: 16px;
-    color: #b0b0b0;
+/* ---- Islands --------------------------------------------------- */
+.modules-left,
+.modules-center,
+.modules-right {
+    background: rgba(26, 27, 38, 0.92);
+    border: 1px solid rgba(65, 72, 104, 0.5);
+    border-radius: 12px;
     padding: 0 4px;
 }
 
-#battery {
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+/* ---- Shared module spacing / color ----------------------------- */
+#custom-launcher,
+#workspaces,
+#mode,
+#window,
+#clock,
+#custom-weather,
+#idle_inhibitor,
+#backlight,
+#pulseaudio,
+#network,
+#language,
+#cpu,
+#memory,
+#battery,
+#tray {
+    padding: 0 9px;
+    margin: 4px 1px;
+    color: #c0caf5;
+    border-radius: 8px;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
-#battery.warning {
-    color: orange;
+/* ---- Launcher -------------------------------------------------- */
+#custom-launcher {
+    color: #7aa2f7;
+    font-size: 16px;
+    padding: 0 12px;
+    margin-left: 2px;
 }
 
-#battery.critical {
-    color: red;
+#custom-launcher:hover {
+    background: rgba(122, 162, 247, 0.15);
 }
 
-#battery.warning.discharging {
-    animation: blink-warning 3s infinite;
-}
-
-#battery.critical.discharging {
-    animation: blink-critical 2s infinite;
-}
-
-#cpu.warning {
-    color: orange;
-}
-
-#cpu.critical {
-    color: red;
-}
-
-#custom-keyboard-layout {
-    margin-left: 22px;
-}
-
-#memory {
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-#memory.warning {
-    color: orange;
-}
-
-#memory.critical {
-    color: red;
-    animation: blink-critical 2s infinite;
-}
-
-#mode {
-    color: #ffffff;
-    background-color: #900000;
-    margin-left: 0;
-    padding: 0 16px;
-}
-
-#network.disconnected {
-    color: orange;
-}
-
-#temperature.critical {
-    color: red;
-}
-
-#window {
-    margin-left: 32px;
-    margin-right: 32px;
-    font-style: italic;
-    opacity: 0.9;
+/* ---- Workspaces ------------------------------------------------ */
+#workspaces {
+    padding: 0 2px;
 }
 
 #workspaces button {
-    border-top: 2px solid transparent;
-    padding-bottom: 2px;
-    padding-left: 15px;
-    padding-right: 18px;
-    color: #b0b0b0;
-    transition: color 0.3s ease;
+    padding: 0 8px;
+    margin: 4px 2px;
+    color: #565f89;
+    background: transparent;
+    border-radius: 8px;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 #workspaces button:hover {
-    color: #ffffff;
+    background: rgba(122, 162, 247, 0.15);
+    color: #c0caf5;
 }
 
 #workspaces button.visible {
-    border-color: #444444;
-    color: #cccccc;
+    color: #a9b1d6;
 }
 
 #workspaces button.focused {
-    border-color: #888888;
-    color: #ffffff;
+    background: rgba(122, 162, 247, 0.22);
+    color: #7aa2f7;
 }
 
 #workspaces button.urgent {
-    border-color: #ff6666;
-    color: #ff6666;
+    background: rgba(247, 118, 142, 0.22);
+    color: #f7768e;
 }
 
-/* Animations */
-@keyframes blink-warning {
-    70% {
-        color: white;
-    }
-    to {
-        color: white;
-        background-color: orange;
-    }
+/* ---- Mode (resize etc.) --------------------------------------- */
+#mode {
+    color: #16161e;
+    background: #e0af68;
+    font-weight: 600;
 }
 
-@keyframes blink-critical {
-    70% {
-        color: white;
-    }
+/* ---- Window ---------------------------------------------------- */
+#window {
+    color: #a9b1d6;
+    font-style: italic;
+}
+
+/* Hide the window island when empty */
+window#waybar.empty #window {
+    background: transparent;
+}
+
+/* ---- Clock (center accent) ------------------------------------ */
+#clock {
+    color: #7aa2f7;
+    font-weight: 600;
+}
+
+#clock:hover {
+    background: rgba(122, 162, 247, 0.15);
+}
+
+/* ---- Per-module accent tints ---------------------------------- */
+#custom-weather      { color: #7dcfff; }
+#idle_inhibitor      { color: #bb9af7; }
+#backlight           { color: #e0af68; }
+#pulseaudio          { color: #e0af68; }
+#pulseaudio.muted    { color: #565f89; }
+#network             { color: #7dcfff; }
+#network.disconnected{ color: #ff9e64; }
+#language            { color: #9ece6a; }
+#cpu                 { color: #bb9af7; }
+#memory              { color: #9ece6a; }
+#battery             { color: #2ac3de; }
+
+/* ---- Hover feedback for interactive modules ------------------- */
+#custom-weather:hover,
+#idle_inhibitor:hover,
+#backlight:hover,
+#pulseaudio:hover,
+#network:hover,
+#language:hover,
+#cpu:hover,
+#memory:hover,
+#battery:hover {
+    background: rgba(192, 202, 245, 0.08);
+}
+
+/* ---- State colors (warning / critical) ------------------------ */
+#cpu.warning,
+#memory.warning,
+#battery.warning {
+    color: #ff9e64;
+}
+
+#cpu.critical,
+#memory.critical,
+#battery.critical {
+    color: #f7768e;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: #9ece6a;
+}
+
+#battery.critical:not(.charging) {
+    animation: blink 1.2s steps(2) infinite;
+}
+
+/* ---- Tray ------------------------------------------------------ */
+#tray {
+    padding: 0 8px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+
+/* ---- Animations ------------------------------------------------ */
+@keyframes blink {
     to {
-        color: white;
-        background-color: red;
+        color: #16161e;
+        background: #f7768e;
     }
 }

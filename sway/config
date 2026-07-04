@@ -17,7 +17,7 @@ set $right l
 
 # Applications
 set $term kitty
-set $menu wofi --show=drun --lines=5 --prompt=""
+set $menu wofi --show=drun
 set $uifont "Ubuntu 14"
 
 # Color scheme - Modern minimal palette
@@ -70,6 +70,9 @@ input "1133:16522:Logitech_MX_Keys" {
 # ===================================================
 #  APPEARANCE & THEMING
 # ===================================================
+
+# Title / UI font (kept small and clean)
+font pango:Ubuntu 10
 
 # Window colors          border      bg       text         indicator    childborder
 client.focused          $cl_accent  $cl_bg   $cl_fg       $cl_accent   $cl_accent
@@ -178,6 +181,12 @@ bindsym $mod+Shift+Right move right
 #  WORKSPACES
 # ===================================================
 
+# Jump back to the previous workspace by re-pressing its key
+workspace_auto_back_and_forth yes
+
+# Quickly toggle between the two most recent workspaces
+bindsym $mod+Tab workspace back_and_forth
+
 # Switch to workspace
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
@@ -249,6 +258,22 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+
+# ===================================================
+#  GAPS MODE
+# ===================================================
+mode "gaps" {
+    bindsym plus  gaps inner current plus 4
+    bindsym minus gaps inner current minus 4
+    bindsym 0     gaps inner current set 0
+    bindsym r     gaps inner current set 6
+
+    # Exit gaps mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+g mode "gaps"
 
 # ===================================================
 #  STATUS BAR

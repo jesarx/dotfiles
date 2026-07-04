@@ -1,10 +1,21 @@
+// ===================================================
+//  WAYBAR CONFIGURATION  ·  Tokyo Night
+// ===================================================
+// Copy this to ~/.config/waybar/config
+// Docs: man 5 waybar  /  https://github.com/Alexays/Waybar/wiki
 {
-    "layer": "bottom",
+    "layer": "top",
     "position": "top",
-    "height": 32,
+    "height": 34,
+    "spacing": 0,
+    "margin-top": 6,
+    "margin-left": 10,
+    "margin-right": 10,
 
     "modules-left": [
+        "custom/launcher",
         "sway/workspaces",
+        "sway/mode",
         "sway/window"
     ],
     "modules-center": [
@@ -13,115 +24,152 @@
     "modules-right": [
         "tray",
         "custom/weather",
-        "custom/keyboard-layout",
-        "network",
+        "idle_inhibitor",
         "backlight",
-        "memory",
-        "cpu",
         "pulseaudio",
-        "battery",
+        "network",
+        "sway/language",
+        "cpu",
+        "memory",
+        "battery"
     ],
 
+    // ---- Launcher --------------------------------------------------
+    "custom/launcher": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "wofi --show=drun"
+    },
+
+    // ---- Workspaces ------------------------------------------------
     "sway/workspaces": {
-        "disable-scroll": true,
-        "format": "{name}",
-        "format-icons": {
-            "urgent": "",       // fa-exclamation-circle
-            "focused": "",      // nf-oct-dot_fill
-            "default": "○"
-        }
+        "disable-scroll": false,
+        "all-outputs": true,
+        "format": "{name}"
+    },
+
+    "sway/mode": {
+        "format": " {}"
     },
 
     "sway/window": {
-        "format": "{}",        // fa-window-maximize
-        "max-length": 50
+        "format": "{}",
+        "max-length": 45,
+        "tooltip": false
     },
 
+    // ---- Clock -----------------------------------------------------
     "clock": {
-        "format": "{:%H:%M - %a %d/%m}",   // fa-clock
-        "tooltip-format": "{:%B %Y}",
+        "format": " {:%H:%M}",
         "timezone": "America/Mexico_City",
-        "on-click": "alacritty --hold --command cal -y"
+        "tooltip-format": "<span color='#7aa2f7'><b>{:%A %d %B %Y}</b></span>\n<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "on-scroll": 1,
+            "format": {
+                "months":   "<span color='#7aa2f7'><b>{}</b></span>",
+                "weekdays": "<span color='#565f89'><b>{}</b></span>",
+                "days":     "<span color='#c0caf5'>{}</span>",
+                "today":    "<span color='#f7768e'><b>{}</b></span>"
+            }
+        },
+        "on-click": "kitty --hold --title cal cal -y"
     },
 
+    // ---- Weather ---------------------------------------------------
     "custom/weather": {
-        "format": "{}",       // nf-weather-day_cloudy
-        "interval": 300,
+        "format": "{}",
+        "interval": 900,
         "return-type": "json",
         "exec": "curl -s 'https://wttr.in/19.405958,-99.133457?format=1' | jq --unbuffered --compact-output -M -R '{text:.}'",
         "exec-if": "ping wttr.in -c1",
-        "on-click": "alacritty --hold --command curl wttr.in/19.405958,-99.133457"
+        "on-click": "kitty --hold --title weather curl 'wttr.in/19.405958,-99.133457'"
     },
 
-    "custom/keyboard-layout": {
-        "exec": "swaymsg -t get_inputs | grep -m1 'xkb_active_layout_name' | cut -d '\"' -f4 | cut -d ' ' -f1 | cut -c1-2",
-        "interval": 10,
-        "format": " {}",        // fa-keyboard
-        "signal": 1,
-        "tooltip": false,
-        "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
-    },
-
-    "network": {
-        "format-wifi": " {essid}",     // fa-wifi
-        "format-ethernet": " {ifname}", // fa-sitemap
-        "format-disconnected": "⚠",     // warning
-        "tooltip-format": "{ifname}: {ipaddr}"
-    },
-
-    "backlight": {
-        "format": "󰖨 {percent}",        // fa-sun
-        "on-scroll-up": "brightnessctl set +5%",
-        "on-scroll-down": "brightnessctl set 5%-"
-    },
-
-    "memory": {
-        "interval": 5,
-        "format": " {percentage}",     // nf-dev-ram
-        "states": {
-            "warning": 70,
-            "critical": 90
-        }
-    },
-
-    "cpu": {
-        "interval": 5,
-        "format": " {usage}",         // fa-microchip
-        "states": {
-            "warning": 70,
-            "critical": 90
-        }
-    },
-
-    "pulseaudio": {
-        "format": "{icon} {volume}",
-        "format-muted": "󰂛",            // fa-volume-mute
+    // ---- Idle inhibitor -------------------------------------------
+    "idle_inhibitor": {
+        "format": "{icon}",
         "format-icons": {
-            "default": ["", "", ""]  // fa-volume-off, fa-volume-down, fa-volume-up
+            "activated": "",
+            "deactivated": ""
+        },
+        "tooltip-format-activated": "Modo cafeina activo",
+        "tooltip-format-deactivated": "Suspension automatica"
+    },
+
+    // ---- Backlight ------------------------------------------------
+    "backlight": {
+        "format": "󰖨 {percent}%",
+        "on-scroll-up": "brightnessctl set +5%",
+        "on-scroll-down": "brightnessctl set 5%-",
+        "tooltip-format": "Brillo {percent}%"
+    },
+
+    // ---- Audio ----------------------------------------------------
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰂛 muted",
+        "format-icons": {
+            "headphone": "",
+            "headset": "",
+            "default": ["", "", ""]
         },
         "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-        "scroll-step": 5
+        "on-click-right": "pavucontrol",
+        "scroll-step": 5,
+        "tooltip-format": "{desc}  ·  {volume}%"
     },
 
+    // ---- Network --------------------------------------------------
+    "network": {
+        "format-wifi": "  {signalStrength}%",
+        "format-ethernet": " {ifname}",
+        "format-disconnected": " sin red",
+        "tooltip-format": "{ifname}  ·  {ipaddr}",
+        "tooltip-format-wifi": "{essid}  ·  {signalStrength}%\n{ipaddr}",
+        "tooltip-format-ethernet": "{ifname}  ·  {ipaddr}",
+        "tooltip-format-disconnected": "Desconectado"
+    },
+
+    // ---- Keyboard layout ------------------------------------------
+    "sway/language": {
+        "format": " {short}",
+        "on-click": "swaymsg input type:keyboard xkb_switch_layout next",
+        "tooltip": false
+    },
+
+    // ---- CPU ------------------------------------------------------
+    "cpu": {
+        "interval": 3,
+        "format": " {usage}%",
+        "on-click": "kitty --hold --title btop btop",
+        "tooltip-format": "Carga CPU {usage}%",
+        "states": { "warning": 70, "critical": 90 }
+    },
+
+    // ---- Memory ---------------------------------------------------
+    "memory": {
+        "interval": 5,
+        "format": " {percentage}%",
+        "on-click": "kitty --hold --title btop btop",
+        "tooltip-format": "RAM {used:0.1f}G / {total:0.1f}G",
+        "states": { "warning": 70, "critical": 90 }
+    },
+
+    // ---- Battery --------------------------------------------------
     "battery": {
-        "format": "{icon} {capacity} ",
-        "format-discharging": "{icon} {capacity} ",
-        "format-icons": [
-            "", // fa-battery-empty
-            "", // fa-battery-quarter
-            "", // fa-battery-half
-            "", // fa-battery-three-quarters
-            ""  // fa-battery-full
-        ],
-        "states": {
-            "warning": 25,
-            "critical": 15
-        }
+        "interval": 30,
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip-format": "{timeTo}  ·  {power}W",
+        "states": { "warning": 25, "critical": 15 }
     },
 
+    // ---- Tray -----------------------------------------------------
     "tray": {
-        "icon-size": 20,
-        "spacing": 8
+        "icon-size": 16,
+        "spacing": 10
     }
 }
-
