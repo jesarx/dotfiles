@@ -1,0 +1,32 @@
+# ===================================================
+#  WOFI CONFIGURATION  ·  Tokyo Night
+# ===================================================
+# Copy this to ~/.config/wofi/config
+# Launch with: wofi --show=drun
+
+show=drun
+prompt=Buscar
+mode=drun
+
+# Layout
+width=560
+height=420
+lines=8
+columns=1
+location=center
+orientation=vertical
+halign=fill
+content_halign=fill
+
+# Behaviour
+insensitive=true
+matching=fuzzy
+no_actions=true
+hide_scroll=true
+gtk_dark=true
+term=kitty
+
+# Icons
+allow_images=true
+allow_markup=true
+image_size=26
