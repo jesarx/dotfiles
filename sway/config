@@ -20,20 +20,25 @@ set $term kitty
 set $menu wofi --show=drun
 set $uifont "Ubuntu 14"
 
-# Color scheme - Modern minimal palette
-set $cl_accent #7aa2f7
-set $cl_bg #1a1b26
-set $cl_fg #c0caf5
+# Color scheme - Tokyo Night
+set $cl_accent   #7aa2f7
+set $cl_bg       #1a1b26
+set $cl_surface  #24283b
+set $cl_fg       #c0caf5
+set $cl_fg_dim   #a9b1d6
 set $cl_inactive #414868
-set $cl_urgent #f7768e
+set $cl_muted    #565f89
+set $cl_urgent   #f7768e
 
 # ===================================================
 #  OUTPUT CONFIGURATION
 # ===================================================
-output * bg #16161e solid_color
+# Subtle Tokyo Night gradient wallpaper (ships with these dotfiles).
+# Deploy it alongside the config: ~/.config/sway/wallpaper.png
+output * bg ~/.config/sway/wallpaper.png fill
 
-# Alternative: gradient background (uncomment to use)
-# output * bg ~/.config/sway/wallpaper.png fill
+# Fallback solid color (uncomment if you remove the wallpaper):
+# output * bg #16161e solid_color
 
 # Example multi-monitor setup (uncomment and adjust as needed):
 # output HDMI-A-1 resolution 1920x1080 position -1920,0
@@ -74,16 +79,21 @@ input "1133:16522:Logitech_MX_Keys" {
 # Title / UI font (kept small and clean)
 font pango:Ubuntu 10
 
-# Window colors          border      bg       text         indicator    childborder
-client.focused          $cl_accent  $cl_bg   $cl_fg       $cl_accent   $cl_accent
-client.focused_inactive $cl_inactive $cl_bg  $cl_fg       $cl_inactive $cl_inactive
-client.unfocused        $cl_bg      $cl_bg   $cl_inactive $cl_bg       $cl_bg
-client.urgent           $cl_urgent  $cl_urgent $cl_fg     $cl_urgent   $cl_urgent
+# Window / titlebar colors  border       bg           text         indicator    childborder
+client.focused             $cl_accent   $cl_surface  $cl_fg       $cl_accent   $cl_accent
+client.focused_inactive    $cl_inactive $cl_bg       $cl_fg_dim   $cl_inactive $cl_inactive
+client.unfocused           $cl_bg       $cl_bg       $cl_muted    $cl_bg       $cl_bg
+client.urgent              $cl_urgent   $cl_urgent   $cl_bg       $cl_urgent   $cl_urgent
 
-# Modern minimal borders & gaps
-default_border pixel 1
+# Modern minimal borders
+default_border pixel 2
 default_floating_border pixel 2
 hide_edge_borders smart
+
+# Cleaner, roomier titlebars for tabbed / stacking layouts
+title_align center
+titlebar_padding 10 4
+titlebar_border_thickness 0
 
 # Subtle gaps for breathing room
 smart_gaps on
@@ -147,6 +157,7 @@ floating_modifier $mod normal
 
 # System operations
 bindsym $mod+Shift+c reload
+bindsym $mod+Shift+x exec swaylock
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
 # ===================================================
@@ -296,10 +307,14 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 include /etc/sway/config.d/*
 
 # ===================================================
-#  IDLE CONFIGURATION (OPTIONAL)
+#  IDLE CONFIGURATION
 # ===================================================
-# Example idle configuration (uncomment to use):
-# exec swayidle -w \
-#     timeout 300 'swaylock -f -c 000000' \
-#     timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#     before-sleep 'swaylock -f -c 000000'
+# Requires: swayidle + swaylock (swaylock reads ~/.config/swaylock/config).
+# The waybar "cafeina" (idle_inhibitor) toggle pauses this whole chain.
+#   · 5 min idle  -> lock screen
+#   · 10 min idle -> turn displays off (wake on input)
+#   · before sleep -> lock
+exec swayidle -w \
+    timeout 300 'swaylock -f' \
+    timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+    before-sleep 'swaylock -f'
