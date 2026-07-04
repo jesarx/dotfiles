@@ -4,6 +4,8 @@
 # Permitir solo las carpetas de estilo/tweaks
 !sway/
 !sway/**
+!swaylock/
+!swaylock/**
 !kitty/
 !kitty/**
 !wofi/
