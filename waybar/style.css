@@ -53,6 +53,7 @@ window#waybar {
 #cpu,
 #memory,
 #battery,
+#custom-power,
 #tray {
     padding: 0 9px;
     margin: 4px 1px;
@@ -71,6 +72,19 @@ window#waybar {
 
 #custom-launcher:hover {
     background: rgba(122, 162, 247, 0.15);
+}
+
+/* ---- Power button --------------------------------------------- */
+#custom-power {
+    color: #f7768e;
+    font-size: 15px;
+    padding: 0 12px;
+    margin-right: 2px;
+}
+
+#custom-power:hover {
+    background: rgba(247, 118, 142, 0.18);
+    color: #f7768e;
 }
 
 /* ---- Workspaces ------------------------------------------------ */

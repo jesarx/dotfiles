@@ -31,7 +31,8 @@
         "sway/language",
         "cpu",
         "memory",
-        "battery"
+        "battery",
+        "custom/power"
     ],
 
     // ---- Launcher --------------------------------------------------
@@ -39,6 +40,13 @@
         "format": "",
         "tooltip": false,
         "on-click": "wofi --show=drun"
+    },
+
+    // ---- Power menu -----------------------------------------------
+    "custom/power": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "~/.config/waybar/scripts/powermenu.sh"
     },
 
     // ---- Workspaces ------------------------------------------------
