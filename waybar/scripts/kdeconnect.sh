@@ -8,7 +8,7 @@
 #   kdeconnect.sh          -> imprime el estado en JSON (para waybar)
 #   kdeconnect.sh ring     -> hace sonar el telefono (find my device)
 
-PHONE="󰄜"
+PHONE=""
 
 # Primer dispositivo emparejado y disponible (reachable)
 first_device() {
