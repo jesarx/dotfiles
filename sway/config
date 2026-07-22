@@ -318,3 +318,9 @@ exec swayidle -w \
     timeout 300 'swaylock -f' \
     timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
     before-sleep 'swaylock -f'
+
+# Clipboard history (solo dura la sesión, vive en tmpfs)
+exec mkdir -p "$XDG_RUNTIME_DIR/cliphist"
+exec wl-paste --watch sh -c 'cliphist -db-path "$XDG_RUNTIME_DIR/cliphist/db" store'
+ 
+bindsym $mod+Shift+v exec sh -c 'cliphist -db-path "$XDG_RUNTIME_DIR/cliphist/db" list | wofi --dmenu | cliphist -db-path "$XDG_RUNTIME_DIR/cliphist/db" decode | wl-copy'
