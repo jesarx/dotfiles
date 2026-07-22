@@ -31,6 +31,7 @@
         "sway/language",
         "cpu",
         "memory",
+        "custom/kdeconnect",
         "battery",
         "custom/power"
     ],
@@ -126,6 +127,16 @@
         "on-click-right": "pavucontrol",
         "scroll-step": 5,
         "tooltip-format": "{desc}  ·  {volume}%"
+    },
+
+    // ---- KDE Connect ----------------------------------------------
+    "custom/kdeconnect": {
+        "format": "{}",
+        "return-type": "json",
+        "interval": 10,
+        "exec": "~/.config/waybar/scripts/kdeconnect.sh",
+        "on-click": "kdeconnect-app",
+        "on-click-right": "~/.config/waybar/scripts/kdeconnect.sh ring"
     },
 
     // ---- Network --------------------------------------------------
