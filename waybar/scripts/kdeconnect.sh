@@ -29,7 +29,7 @@ if [ -z "$id" ]; then
     exit 0
 fi
 
-name=$(kdeconnect-cli --name -d "$id" 2>/dev/null)
+name=$(kdeconnect-cli -a --name-only 2>/dev/null | head -n1)
 [ -z "$name" ] && name="Dispositivo"
 
 # Bateria via DBus (best-effort; si falla, simplemente no se muestra)
