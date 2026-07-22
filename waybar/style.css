@@ -53,6 +53,7 @@ window#waybar {
 #language,
 #cpu,
 #memory,
+#custom-kdeconnect,
 #battery,
 #custom-power,
 #tray {
@@ -160,6 +161,8 @@ window#waybar.empty #window {
 #language            { color: #9ece6a; }
 #cpu                 { color: #bb9af7; }
 #memory              { color: #9ece6a; }
+#custom-kdeconnect              { color: #7dcfff; }
+#custom-kdeconnect.disconnected { color: #565f89; }
 #battery             { color: #2ac3de; }
 
 /* ---- Hover feedback for interactive modules ------------------- */
@@ -171,6 +174,7 @@ window#waybar.empty #window {
 #language:hover,
 #cpu:hover,
 #memory:hover,
+#custom-kdeconnect:hover,
 #battery:hover {
     background: rgba(192, 202, 245, 0.08);
 }
